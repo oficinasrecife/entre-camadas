@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Entre Camadas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Oficina Entre Camadas: a arte do bolo de rolo. Edição especial de Natal, 28 de novembro, três turmas de 12 pessoas.">
+<meta property="og:title" content="Entre Camadas · A arte do bolo de rolo">
+<meta property="og:description" content="Oficina prática, edição especial de Natal. 28/11, turmas manhã, tarde e noite. R$ 220.">
+<meta property="og:image" content="hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+/* ==========================================================
+   CONFIGURAÇÃO · preencha aqui
+   ========================================================== */
+window.CONFIG = {
+  // URL do App da Web do Google Apps Script (termina em /exec). Vazio = modo demonstração.
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyeDi4g_4T1pArhXPWPWWYVVt45m8T-HcuGLKTR5KMfozPLbSYH2Np0AgSgGyhBY66u/exec",
+
+  VALOR: 220.00,
+  VAGAS_POR_TURMA: 12,
+
+  // Pix pronto (copia e cola gerado no app do banco). Se preenchido, é usado no lugar da chave.
+  PIX_CODIGO_PRONTO: "00020101021126790014BR.GOV.BCB.PIX2557pix-qr.mercadopago.com/instore/ol/v2/rYdraiicGIcjHFzIuodv5204000053039865802BR5913Entre Camadas6009SAO PAULO62080504mpis6304ECFB",
+
+  // Pix por chave: chave, nome de quem recebe (até 25 letras) e cidade (até 15 letras)
+  PIX_CHAVE: "",
+  PIX_NOME: "",
+  PIX_CIDADE: "RECIFE",
+
+  // WhatsApp que recebe os comprovantes, só números com DDI e DDD. Ex.: 5581999999999
+  WHATSAPP: "5581987388104",
+
+  // Links de pagamento com cartão (Mercado Pago). Link vazio = opção escondida.
+  CARTAO: [
+    { parcelas: 1, total: "", link: "https://mpago.la/29TkYQo" },
+    { parcelas: 2, total: "", link: "https://mpago.la/19r9ESi" },
+    { parcelas: 3, total: "", link: "https://mpago.la/1sDvvuC" }
+  ],
+
+  // Local
+  LOCAL_NOME: "Ateliê Dimesa · Empresarial Wecon IV, 5º andar",
+  ENDERECO: "Rua José Aderval Chaves, 78, Boa Viagem, Recife - PE, 51111-030",
+  REFERENCIA: "Atrás da Casa dos Frios"
+};
+</script>
+<style>
+/* Layout: página de evento em duas colunas (foto + ficha de inscrição), seções de leitura abaixo; espiral do bolo como motivo */
+:root{
+  --bg:#f7efe3; --surface:#fffaf2; --ink:#2b1712; --muted:#6e5a50; --line:#e4d5c2;
+  --wine:#4a1d14; --guava:#a3322a; --gold:#c9974f; --leaf:#3f5541; --on-dark:#fbf3e7;
+  --ok:#2f6b3e; --warn:#9a5b12;
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1c110d; --surface:#271813; --ink:#f4e8da; --muted:#bfa999; --line:#3d2a22;
+  --wine:#3a160f; --guava:#e0675c; --gold:#ddb071; --leaf:#8fae8f; --on-dark:#fbf3e7; --ok:#7fc08f; --warn:#e3a95a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1c110d; --surface:#271813; --ink:#f4e8da; --muted:#bfa999; --line:#3d2a22;
+  --wine:#3a160f; --guava:#e0675c; --gold:#ddb071; --leaf:#8fae8f; --on-dark:#fbf3e7; --ok:#7fc08f; --warn:#e3a95a; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.6}
+img{max-width:100%}
+[hidden]{display:none!important}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.12}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--guava)}
+a{color:var(--guava)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+.top{background:var(--wine);color:var(--on-dark)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:14px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-size:1.15rem}
+.brand small{display:block;font-family:var(--body);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.top a{color:var(--on-dark);text-decoration:none;font-weight:600;font-size:.9rem;border:1px solid color-mix(in srgb,var(--on-dark) 35%,transparent);padding:8px 16px;border-radius:999px}
+
+.hero{padding-block:40px 56px}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:start}
+.photo{position:relative;border-radius:4px;overflow:hidden;aspect-ratio:3/4;max-width:100%;background:var(--wine);margin:0;position:sticky;top:20px}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.mimo{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px}
+.mimo img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;border-radius:6px}
+.mimo div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.mimo strong{font-family:var(--display);font-weight:400;font-size:1.25rem;color:var(--guava)}
+.mimo p{font-size:.92rem;color:var(--muted)}
+.mimo-capa{position:absolute;top:18px;right:18px;width:38%;background:#fffaf2;padding:8px 8px 10px;border-radius:4px;box-shadow:0 10px 28px rgba(30,10,6,.35);transform:rotate(3deg);display:flex;flex-direction:column;gap:6px}
+.mimo-capa img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;border-radius:2px}
+.mimo-capa span{font-family:var(--display);font-size:.95rem;color:#a3322a;text-align:center;line-height:1.1}
+.photo figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 20px 16px;color:#fbf3e7;font-size:.8rem;letter-spacing:.06em;background:linear-gradient(transparent,rgba(30,10,6,.75))}
+.info{display:flex;flex-direction:column;gap:22px;min-width:0}
+.info h1{font-size:clamp(2.6rem,6vw,4.2rem)}
+.info h1 span{display:block;font-size:.46em;color:var(--guava);margin-top:10px}
+.lede{font-size:1.1rem;color:var(--muted);max-width:44ch}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:10px 16px;padding-block:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.97rem;margin:0}
+.facts dt{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--muted);padding-top:3px}
+.facts dd{margin:0;min-width:0}
+
+/* formulário */
+form{display:flex;flex-direction:column;gap:18px}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+legend,.lbl{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:8px;padding:0}
+.slot{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:14px 16px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer;transition:border-color .15s, background .15s}
+.slot:hover{border-color:var(--gold)}
+.slot input{position:absolute;opacity:0;pointer-events:none}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--muted);display:grid;place-items:center}
+.slot input:checked ~ .dot{border-color:var(--guava)}
+.slot input:checked ~ .dot::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--guava)}
+.slot:has(input:checked){border-color:var(--guava);background:color-mix(in srgb,var(--guava) 7%,var(--surface))}
+.slot:has(input:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
+.slot.full{opacity:.55;cursor:not-allowed}
+.slot b{font-weight:700;display:block}
+.slot .hrs{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.93rem}
+.vag{font-size:.8rem;font-weight:700;white-space:nowrap;color:var(--ok);font-variant-numeric:tabular-nums}
+.vag.low{color:var(--warn)}
+.vag.zero{color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-weight:600;font-size:.92rem}
+.field label small{font-weight:400;color:var(--muted)}
+.field input{font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);width:100%}
+.field input:focus{border-color:var(--guava);outline:none}
+.check{display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:.9rem;color:var(--muted);align-items:start}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--guava)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.buy{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.price{font-family:var(--display);font-size:2.2rem;line-height:1;font-variant-numeric:tabular-nums}
+.price small{display:block;font-family:var(--body);font-size:.8rem;color:var(--muted);margin-top:6px}
+.btn{appearance:none;border:0;cursor:pointer;font:inherit;font-weight:700;font-size:1rem;background:var(--guava);color:#fff;padding:15px 28px;border-radius:999px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:filter .15s, transform .15s}
+.btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.btn[disabled]{opacity:.6;cursor:wait;transform:none}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.leaf{background:var(--leaf)}
+.msg{font-size:.92rem;padding:12px 14px;border-radius:8px;background:color-mix(in srgb,var(--warn) 14%,var(--surface));color:var(--ink)}
+.demo{font-size:.82rem;color:var(--muted);border:1px dashed var(--line);border-radius:8px;padding:10px 12px}
+
+/* pagamento */
+.pay{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:18px}
+.pay h2{font-size:1.7rem}
+.pay .who{color:var(--muted)}
+.qrbox{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.qr{width:200px;height:200px;background:#fff;border-radius:8px;padding:10px;display:grid;place-items:center}
+.qr img,.qr svg{width:100%;height:100%;display:block}
+.copia{display:flex;flex-direction:column;gap:8px;min-width:0}
+.copia code{display:block;font-size:.72rem;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;max-height:96px;overflow:auto;user-select:all}
+.cartao{display:flex;flex-direction:column;gap:10px;padding-top:16px;border-top:1px dashed var(--line)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.card-opt{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);background:var(--bg);font-variant-numeric:tabular-nums}
+.card-opt:hover{border-color:var(--guava)}
+.card-opt span{font-size:.85rem;color:var(--muted)}
+.steps-pay{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+
+section.blk{padding-block:56px;border-top:1px solid var(--line)}
+.cols{display:grid;grid-template-columns:260px 1fr;gap:48px}
+.cols > *{min-width:0}
+.cols h2{font-size:2rem}
+.prose{display:flex;flex-direction:column;gap:16px;max-width:65ch;font-size:1.04rem}
+.quote{font-family:var(--display);font-size:clamp(1.5rem,3.2vw,2.1rem);line-height:1.25;color:var(--guava);max-width:28ch}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:112px 1fr;gap:20px;padding-block:18px;border-bottom:1px dashed var(--line)}
+.steps li:last-child{border-bottom:0}
+.steps time{font-variant-numeric:tabular-nums;font-weight:700;color:var(--guava);font-size:.92rem;padding-top:4px}
+.steps h3{font-size:1.25rem;margin-bottom:4px}
+.steps p{color:var(--muted)}
+.note{font-size:.88rem;color:var(--muted);margin-top:14px}
+.band{background:var(--leaf);color:var(--on-dark)}
+.band .wrap{padding-block:52px;display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center}
+.band .eyebrow{color:var(--gold)}
+.band h2{font-size:clamp(1.6rem,3.4vw,2.3rem);margin-top:8px;max-width:30ch}
+.band p{margin-top:12px;max-width:62ch;opacity:.92}
+.band canvas{width:132px;height:132px;display:block}
+.inc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 28px;list-style:none;margin:0;padding:0}
+.inc li{padding-left:22px;position:relative}
+.inc li::before{content:"";position:absolute;left:0;top:.62em;width:9px;height:9px;border-radius:50%;border:2px solid var(--guava)}
+.map{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:stretch}
+.mapbox{position:relative;min-height:300px;border-radius:10px;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
+.mapbox p{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted);font-size:.92rem}
+.map iframe{position:relative;width:100%;height:100%;min-height:300px;border:0;display:block;background:transparent}
+.map .addr{display:flex;flex-direction:column;gap:14px;justify-content:center}
+.map .addr strong{font-family:var(--display);font-weight:400;font-size:1.4rem}
+.faq{display:flex;flex-direction:column;gap:6px}
+.faq details{border-bottom:1px solid var(--line);padding-block:14px}
+.faq summary{cursor:pointer;font-weight:600}
+.faq details p{margin-top:8px;color:var(--muted)}
+footer{background:var(--wine);color:var(--on-dark)}
+footer .wrap{padding-block:32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.85rem;opacity:.9}
+
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;gap:28px}
+  .photo{aspect-ratio:4/3;position:relative;top:0}
+  .mimo-capa{width:30%;top:12px;right:12px;padding:5px 5px 7px}
+  .mimo-capa span{font-size:.75rem}
+  .cols{grid-template-columns:1fr;gap:20px}
+  .band .wrap{grid-template-columns:1fr}
+  .map{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  .inc{grid-template-columns:1fr}
+  .steps li{grid-template-columns:1fr;gap:4px}
+  .slot{grid-template-columns:auto 1fr}
+  .slot .vag{grid-column:2}
+  .btn{width:100%}
+  .qrbox{grid-template-columns:1fr;justify-items:center}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><small>Sabores da nossa terra</small>Entre Camadas</div>
+    <a href="#inscricao">Garantir vaga</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <figure class="photo">
+        <img src="hero.jpg" alt="Bolo de rolo com recheio de goiabada fatiado sobre prato de cerâmica, com goiabas e toalha de crochê">
+        <figcaption>Bolo de rolo: camadas finas, goiabada e enrolamento sucessivo</figcaption>
+        <div class="mimo-capa"><img src="mimo.jpg" alt="Bolinho de rolo em caixinha kraft com fita vermelha e raminho de alecrim, embalado como presente de Natal"><span>Seu mimo de Natal</span></div>
+      </figure>
+
+      <div class="info">
+        <p class="eyebrow">Experiência gastronômica · Edição especial de Natal</p>
+        <h1>Entre Camadas<span>A arte do bolo de rolo</span></h1>
+        <p class="lede">A delicadeza da técnica artesanal, os sabores de Pernambuco e a beleza de preservar tradições. Uma oficina prática para enriquecer sua ceia, o chá da tarde e a arte de receber em casa.</p>
+
+        <dl class="facts">
+          <dt>Data</dt><dd><strong>Sábado, 28 de novembro de 2026</strong></dd>
+          <dt>Duração</dt><dd>3 horas, com prática acompanhada</dd>
+          <dt>Turmas</dt><dd>Até 12 pessoas por horário</dd>
+          <dt>Local</dt><dd id="local-resumo">Endereço enviado em breve</dd>
+        </dl>
+
+        <!-- ETAPA 1: inscrição -->
+        <form id="inscricao" novalidate>
+          <fieldset>
+            <legend>Escolha seu horário</legend>
+            <label class="slot" data-turma="Manhã (9h às 12h)"><input type="radio" name="turma" id="t-manha" value="Manhã (9h às 12h)"><span class="dot"></span><span><b>Manhã</b><span class="hrs">9h às 12h</span></span><span class="vag">12 vagas</span></label>
+            <label class="slot" data-turma="Tarde (13h30 às 16h30)"><input type="radio" name="turma" id="t-tarde" value="Tarde (13h30 às 16h30)"><span class="dot"></span><span><b>Tarde</b><span class="hrs">13h30 às 16h30</span></span><span class="vag">12 vagas</span></label>
+            <label class="slot" data-turma="Noite (17h às 20h)"><input type="radio" name="turma" id="t-noite" value="Noite (17h às 20h)"><span class="dot"></span><span><b>Noite</b><span class="hrs">17h às 20h</span></span><span class="vag">12 vagas</span></label>
+          </fieldset>
+
+          <div class="field"><label for="f-nome">Nome completo</label><input id="f-nome" name="nome" autocomplete="name" required></div>
+          <div class="field"><label for="f-whats">WhatsApp <small>com DDD</small></label><input id="f-whats" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(81) 9 0000-0000" required></div>
+          <div class="field"><label for="f-email">E-mail <small>opcional</small></label><input id="f-email" name="email" type="email" autocomplete="email"></div>
+          <div class="hp" aria-hidden="true"><label for="f-site">Não preencha</label><input id="f-site" name="site" tabindex="-1" autocomplete="off"></div>
+
+          <label class="check" for="f-ciente"><input type="checkbox" id="f-ciente" required><span>Entendo que minha vaga fica reservada por 24 horas e só é confirmada após o pagamento. Meus dados serão usados apenas para a organização da oficina.</span></label>
+
+          <div class="buy">
+            <div class="price">R$ 220<small>por pessoa</small></div>
+            <button class="btn" id="enviar" type="submit">Reservar minha vaga</button>
+          </div>
+          <p class="msg" id="erro" role="alert" hidden></p>
+          <p class="demo" id="demo" hidden>Modo de demonstração: a planilha ainda não foi conectada, então nenhuma inscrição é gravada.</p>
+        </form>
+
+        <!-- ETAPA 2: pagamento -->
+        <div class="pay" id="pagamento" hidden tabindex="-1">
+          <p class="eyebrow">Vaga reservada</p>
+          <h2 id="pay-titulo">Agora é só pagar</h2>
+          <p class="who" id="pay-turma"></p>
+
+          <div class="mimo">
+            <img src="mimo.jpg" alt="Bolinho de rolo em caixinha kraft com fita vermelha e raminho de alecrim, embalado como presente de Natal">
+            <div><strong>Seu mimo de Natal</strong><p>No fim da oficina, você leva para casa um bolinho de rolo embalado para presentear quem você ama.</p></div>
+          </div>
+
+          <div class="qrbox">
+            <div class="qr" id="qr" aria-label="QR Code Pix"></div>
+            <div class="copia">
+              <span class="lbl" id="pix-valor-lbl">Pix copia e cola · R$ 220,00</span>
+              <code id="pix-code"></code>
+              <div class="row">
+                <button class="btn leaf" type="button" id="copiar">Copiar código Pix</button>
+              </div>
+              <span class="note" id="pix-recebedor" style="margin:0"></span>
+            </div>
+          </div>
+
+          <ol class="steps-pay">
+            <li>Abra o app do seu banco, escolha Pix e leia o QR Code ou cole o código.</li>
+            <li id="passo-valor">Confira o valor de R$ 220,00 e o nome de quem recebe.</li>
+            <li id="passo-comprovante">Envie o comprovante pelo WhatsApp. Sua vaga é confirmada assim que conferirmos o pagamento.</li>
+          </ol>
+
+          <div class="row">
+            <a class="btn" id="btn-comprovante" target="_blank" rel="noopener" hidden>Enviar comprovante</a>
+          </div>
+          <div class="cartao" id="cartao" hidden>
+            <span class="lbl">Prefere cartão de crédito?</span>
+            <div class="cards" id="cards"></div>
+            <p class="note" style="margin:0">O pagamento no cartão inclui as taxas da operadora. Depois de pagar, envie o comprovante pelo WhatsApp.</p>
+          </div>
+          <button class="btn ghost" type="button" id="nova">Fazer outra inscrição</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="blk">
+    <div class="wrap cols">
+      <div><p class="eyebrow">Sobre a oficina</p><h2 style="margin-top:8px">Um doce, muitas memórias</h2></div>
+      <div class="prose">
+        <p>Inspirado em preparações portuguesas, o bolo de rolo ganhou em Pernambuco características próprias: massa em camadas muito finas, recheio tradicional de goiabada e enrolamento sucessivo. Faz parte da memória da doçaria regional e do gesto de oferecer comida como acolhimento.</p>
+        <p>Nesta vivência, você aprende fazendo, em uma turma pequena e acolhedora, com tempo para compartilhar histórias. Trabalhamos em trios, da preparação da massa até o corte e a apresentação, e encerramos com degustação e conversa.</p>
+        <p class="quote">Neste Natal, presenteie com um pedaço da nossa história.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="wrap cols">
+      <div><p class="eyebrow">Roteiro</p><h2 style="margin-top:8px">Como são as 3 horas</h2></div>
+      <div>
+        <ol class="steps">
+          <li><time>00 a 15 min</time><div><h3>Acolhimento e patrimônio</h3><p>Memória afetiva, história e identidade cultural do bolo de rolo.</p></div></li>
+          <li><time>15 a 40 min</time><div><h3>Ingredientes e preparação</h3><p>Massa, recheio de goiabada e organização da bancada.</p></div></li>
+          <li><time>40 a 140 min</time><div><h3>Mãos na massa</h3><p>Camadas finas, assamento, recheio e enrolamento.</p></div></li>
+          <li><time>140 a 165 min</time><div><h3>Finalização e presente</h3><p>Corte, apresentação e embalagem natalina do seu bolinho de lembrancinha.</p></div></li>
+          <li><time>165 a 180 min</time><div><h3>Degustação e partilha</h3><p>Conversa, dúvidas e trocas entre participantes.</p></div></li>
+        </ol>
+        <p class="note">O mesmo roteiro se repete nas turmas da manhã, da tarde e da noite.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="band">
+    <div class="wrap">
+      <canvas id="spiral" width="264" height="264" aria-hidden="true"></canvas>
+      <div>
+        <p class="eyebrow">Patrimônio Cultural e Imaterial de Pernambuco</p>
+        <h2>Um saber reconhecido por lei estadual</h2>
+        <p>A Lei Estadual nº 13.436, de 24 de abril de 2008, considera o bolo de rolo Patrimônio Cultural e Imaterial do Estado de Pernambuco. Aprender a receita é também uma forma de manter viva essa tradição.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="blk">
+    <div class="wrap cols">
+      <div><p class="eyebrow">Para participar</p><h2 style="margin-top:8px">O que está incluso</h2></div>
+      <div class="prose">
+        <ul class="inc">
+          <li>Ingredientes da massa e do recheio de goiabada</li>
+          <li>Utensílios e bancada compartilhados em trios</li>
+          <li>Prática acompanhada do início ao enrolamento</li>
+          <li>Um bolinho de rolo embalado de lembrancinha, o seu mimo de Natal</li>
+          <li>Degustação e roda de conversa ao final</li>
+          <li>Turma intimista, com até 12 pessoas</li>
+        </ul>
+        <p class="note">Não é preciso experiência prévia. Recomendamos roupas confortáveis e cabelo preso.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="local" hidden>
+    <div class="wrap cols">
+      <div><p class="eyebrow">Como chegar</p><h2 style="margin-top:8px">Local</h2></div>
+      <div class="map">
+        <div class="mapbox"><p>Mapa do local. Se ele não aparecer, use os botões do Google Maps ou do Waze.</p><iframe id="mapa" title="Mapa do local" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        <div class="addr">
+          <strong id="local-nome"></strong>
+          <p id="local-endereco"></p>
+          <p class="note" id="local-ref" style="margin:0"></p>
+          <div class="row">
+            <a class="btn" id="btn-gmaps" target="_blank" rel="noopener">Abrir no Google Maps</a>
+            <a class="btn ghost" id="btn-waze" target="_blank" rel="noopener">Abrir no Waze</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="wrap cols">
+      <div><p class="eyebrow">Dúvidas</p><h2 style="margin-top:8px">Antes de se inscrever</h2></div>
+      <div class="faq">
+        <details><summary>Como sei que minha vaga está garantida?</summary><p>Depois de preencher o formulário, sua vaga fica reservada por 24 horas. Ela é confirmada quando conferimos o seu Pix, e você recebe a confirmação pelo WhatsApp.</p></details>
+        <details><summary>Posso pagar no nome de outra pessoa?</summary><p>Pode, desde que envie o comprovante pelo WhatsApp informando o nome de quem vai participar.</p></details>
+        <details><summary>Preciso levar alguma coisa?</summary><p>Não. Ingredientes, utensílios e embalagem estão inclusos. Venha com roupa confortável e cabelo preso.</p></details>
+        <details><summary>Preciso saber cozinhar?</summary><p>Não. A oficina é acompanhada do início ao fim e pensada para quem nunca fez bolo de rolo.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Entre Camadas · Edição especial de Natal · 28/11/2026</span>
+    <span>Fonte: Lei PE nº 13.436/2008</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var C = window.CONFIG, $ = function(id){return document.getElementById(id);};
+  var demo = !C.SCRIPT_URL;
+  if (demo) $('demo').hidden = false;
+
+  /* ---------- Pix (BR Code estático) ---------- */
+  function semAcento(s){return String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9 .\-]/g,'').toUpperCase().trim();}
+  function f(id,v){v=String(v);return id+String(v.length).padStart(2,'0')+v;}
+  function crc16(s){var c=0xFFFF;for(var i=0;i<s.length;i++){c^=s.charCodeAt(i)<<8;for(var j=0;j<8;j++){c=(c&0x8000)?((c<<1)^0x1021):(c<<1);c&=0xFFFF;}}return c.toString(16).toUpperCase().padStart(4,'0');}
+  function pix(chave,nome,cidade,valor){
+    var p=f('00','01')+f('26',f('00','br.gov.bcb.pix')+f('01',chave.trim()))+f('52','0000')+f('53','986')+f('54',valor.toFixed(2))+f('58','BR')+f('59',semAcento(nome).slice(0,25).trim())+f('60',semAcento(cidade).slice(0,15).trim())+f('62',f('05','***'))+'6304';
+    return p+crc16(p);
+  }
+  window.__pix = pix; // usado no teste
+
+  /* ---------- vagas ---------- */
+  function pintarVagas(lista){
+    lista.forEach(function(v){
+      var slot=document.querySelector('.slot[data-turma="'+v.turma+'"]'); if(!slot) return;
+      var tag=slot.querySelector('.vag'), inp=slot.querySelector('input');
+      tag.className='vag'+(v.restantes===0?' zero':(v.restantes<=3?' low':''));
+      tag.textContent = v.restantes===0 ? 'Esgotada' : (v.restantes===1 ? 'Última vaga' : 'Restam '+v.restantes+' vagas');
+      inp.disabled = v.restantes===0; slot.classList.toggle('full', v.restantes===0);
+      if (inp.disabled && inp.checked) inp.checked=false;
+    });
+  }
+  function carregarVagas(){
+    if (demo) return;
+    fetch(C.SCRIPT_URL).then(function(r){return r.json();}).then(function(d){ if(d && d.vagas) pintarVagas(d.vagas); }).catch(function(){});
+  }
+  carregarVagas();
+
+  /* ---------- envio ---------- */
+  var form=$('inscricao'), btn=$('enviar'), erro=$('erro');
+  function falha(t){erro.textContent=t;erro.hidden=false;}
+  form.addEventListener('submit',function(e){
+    e.preventDefault(); erro.hidden=true;
+    var turma=(form.querySelector('input[name="turma"]:checked')||{}).value;
+    var nome=$('f-nome').value.trim(), whats=$('f-whats').value.trim(), email=$('f-email').value.trim();
+    if(!turma) return falha('Escolha um horário para continuar.');
+    if(nome.length<3) return falha('Escreva seu nome completo.');
+    if(whats.replace(/\D/g,'').length<10) return falha('Informe um WhatsApp com DDD.');
+    if(!$('f-ciente').checked) return falha('Marque a caixa de ciência para reservar a vaga.');
+    var dados={turma:turma,nome:nome,whatsapp:whats,email:email,site:$('f-site').value};
+    btn.disabled=true; btn.textContent='Reservando…';
+    var req = demo ? new Promise(function(ok){setTimeout(function(){ok({ok:true});},600);})
+                   : fetch(C.SCRIPT_URL,{method:'POST',body:JSON.stringify(dados)}).then(function(r){return r.json();});
+    req.then(function(d){
+      if(d && d.ok){ if(d.vagas) pintarVagas(d.vagas); mostrarPagamento(dados); }
+      else { if(d && d.vagas) pintarVagas(d.vagas); falha((d&&d.mensagem)||'Não foi possível reservar agora. Tente novamente.'); }
+    }).catch(function(){ falha('Sem conexão com a planilha de inscrições. Verifique sua internet e tente de novo.'); })
+      .finally(function(){ btn.disabled=false; btn.textContent='Reservar minha vaga'; });
+  });
+
+  function mostrarPagamento(d){
+    form.hidden=true; var box=$('pagamento'); box.hidden=false;
+    $('pay-titulo').textContent='Agora é só pagar, '+d.nome.split(' ')[0];
+    $('pay-turma').textContent='Turma: '+d.turma+' · Sábado, 28/11. Sua vaga fica reservada por 24 horas.';
+    function temValor(s){var i=0;while(i+4<=s.length){var id=s.substr(i,2),n=parseInt(s.substr(i+2,2),10);if(isNaN(n))return false;if(id==='54')return true;i+=4+n;}return false;}
+    var pronto = !!C.PIX_CODIGO_PRONTO && !temValor(C.PIX_CODIGO_PRONTO);
+    var code = C.PIX_CODIGO_PRONTO || (C.PIX_CHAVE ? pix(C.PIX_CHAVE, C.PIX_NOME||'RECEBEDOR', C.PIX_CIDADE||'RECIFE', C.VALOR) : '');
+    $('pix-code').textContent = code || 'Chave Pix em configuração.';
+    $('pix-recebedor').textContent = (C.PIX_NOME ? 'Recebedor: '+C.PIX_NOME+'. ' : '') + (pronto ? 'Digite o valor de R$ 220,00 no app do banco.' : '');
+    $('pix-valor-lbl').textContent = pronto ? 'Pix copia e cola · digite R$ 220,00' : 'Pix copia e cola · R$ 220,00';
+    $('passo-valor').textContent = pronto ? 'Digite o valor de R$ 220,00, confira o nome Entre Camadas e confirme.' : 'Confira o valor de R$ 220,00 e o nome de quem recebe.';
+    var qr=$('qr'); qr.innerHTML='';
+    if(code && window.qrcode){ var q=qrcode(0,'M'); q.addData(code); q.make(); qr.innerHTML=q.createSvgTag({cellSize:4,margin:0,scalable:true}); }
+    if(C.WHATSAPP){
+      var txt='Olá! Segue o comprovante da inscrição na oficina Entre Camadas. Nome: '+d.nome+'. Turma: '+d.turma+'.';
+      var a=$('btn-comprovante'); a.href='https://wa.me/'+C.WHATSAPP.replace(/\D/g,'')+'?text='+encodeURIComponent(txt); a.hidden=false;
+    }
+    var cards=$('cards'); cards.innerHTML='';
+    (C.CARTAO||[]).filter(function(o){return o.link;}).forEach(function(o){
+      var a=document.createElement('a'); a.className='card-opt'; a.href=o.link; a.target='_blank'; a.rel='noopener';
+      var n=parseFloat(String(o.total).replace(',','.'));
+      var parc = n ? (o.parcelas>1 ? o.parcelas+'x de R$ '+(n/o.parcelas).toFixed(2).replace('.',',') : 'R$ '+n.toFixed(2).replace('.',',')) : '';
+      var b=document.createElement('b'); b.textContent = o.parcelas===1 ? 'À vista' : o.parcelas+'x sem juros';
+      var s=document.createElement('span'); s.textContent = parc + (n && o.parcelas>1 ? ' · total R$ '+n.toFixed(2).replace('.',',') : '');
+      a.appendChild(b); a.appendChild(s); cards.appendChild(a);
+    });
+    $('cartao').hidden = !cards.children.length;
+    box.focus({preventScroll:true}); box.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  $('copiar').addEventListener('click',function(){
+    var t=$('pix-code').textContent, b=this;
+    function ok(){b.textContent='Código copiado';setTimeout(function(){b.textContent='Copiar código Pix';},2200);}
+    function sel(){var r=document.createRange();r.selectNodeContents($('pix-code'));var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Código selecionado, copie';}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,sel);}else sel();
+  });
+  $('nova').addEventListener('click',function(){ form.reset(); form.hidden=false; $('pagamento').hidden=true; carregarVagas(); form.scrollIntoView({behavior:'smooth'}); });
+
+  /* ---------- local e mapa ---------- */
+  if(C.ENDERECO){
+    var q=encodeURIComponent(C.ENDERECO);
+    $('local').hidden=false;
+    $('local-resumo').textContent='Ateliê Dimesa, 5º andar do Empresarial Wecon IV, Boa Viagem, Recife';
+    $('local-nome').textContent=C.LOCAL_NOME||'Local da oficina';
+    $('local-endereco').textContent=C.ENDERECO;
+    $('local-ref').textContent=C.REFERENCIA ? 'Referência: '+C.REFERENCIA : '';
+    $('mapa').src='https://maps.google.com/maps?q='+q+'&z=16&output=embed';
+    $('btn-gmaps').href='https://www.google.com/maps/search/?api=1&query='+q;
+    $('btn-waze').href='https://waze.com/ul?q='+q+'&navigate=yes';
+  }
+
+  /* ---------- espiral ---------- */
+  var c=$('spiral'); if(c&&c.getContext){var x=c.getContext('2d'),w=c.width,cx=w/2,cy=w/2;
+    x.fillStyle='#e9cf9b';x.beginPath();x.arc(cx,cy,w/2-2,0,Math.PI*2);x.fill();
+    x.strokeStyle='#a3322a';x.lineWidth=7;x.lineCap='round';x.beginPath();var T=6*Math.PI*2,m=w/2-16;
+    for(var t=0;t<=T;t+=0.04){var r=6+(m-6)*t/T;var px=cx+r*Math.cos(t),py=cy+r*Math.sin(t);t===0?x.moveTo(px,py):x.lineTo(px,py);}x.stroke();}
+})();
+</script>
+</body>
+</html>
