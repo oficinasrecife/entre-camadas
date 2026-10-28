@@ -43,7 +43,7 @@ window.CONFIG = {
   ],
 
   // Local
-  LOCAL_NOME: "Ateliê Dimesa · Empresarial Wecon IV, 5º andar",
+  LOCAL_NOME: "Ateliê DiMesa · Empresarial Wecon IV, 5º andar",
   ENDERECO: "Rua José Aderval Chaves, 78, Boa Viagem, Recife - PE, 51111-030",
   REFERENCIA: "Atrás da Casa dos Frios"
 };
@@ -373,6 +373,7 @@ footer .wrap{padding-block:32px;display:flex;justify-content:space-between;gap:1
           <strong id="local-nome"></strong>
           <p id="local-endereco"></p>
           <p class="note" id="local-ref" style="margin:0"></p>
+          <p class="note" style="margin:0">Conheça o ateliê no Instagram: <a href="https://www.instagram.com/dimesa_posta/" target="_blank" rel="noopener">@dimesa_posta</a></p>
           <div class="row">
             <a class="btn" id="btn-gmaps" target="_blank" rel="noopener">Abrir no Google Maps</a>
             <a class="btn ghost" id="btn-waze" target="_blank" rel="noopener">Abrir no Waze</a>
@@ -498,7 +499,7 @@ footer .wrap{padding-block:32px;display:flex;justify-content:space-between;gap:1
   if(C.ENDERECO){
     var q=encodeURIComponent(C.ENDERECO);
     $('local').hidden=false;
-    $('local-resumo').textContent='Ateliê Dimesa, 5º andar do Empresarial Wecon IV, Boa Viagem, Recife';
+    $('local-resumo').innerHTML='Ateliê DiMesa (<a href="https://www.instagram.com/dimesa_posta/" target="_blank" rel="noopener">@dimesa_posta</a>), 5º andar do Empresarial Wecon IV, Boa Viagem, Recife';
     $('local-nome').textContent=C.LOCAL_NOME||'Local da oficina';
     $('local-endereco').textContent=C.ENDERECO;
     $('local-ref').textContent=C.REFERENCIA ? 'Referência: '+C.REFERENCIA : '';
